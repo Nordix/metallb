@@ -12,6 +12,7 @@ import (
 	metallbv1beta2 "go.universe.tf/metallb/api/v1beta2"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/utils/ptr"
 )
 
 const (
@@ -92,6 +93,16 @@ func WithRouterID(peers []metallbv1beta2.BGPPeer, routerID string) []metallbv1be
 func WithGracefulRestart(peers []metallbv1beta2.BGPPeer) []metallbv1beta2.BGPPeer {
 	for i := range peers {
 		peers[i].Spec.EnableGracefulRestart = true
+	}
+	return peers
+}
+
+// WithLocalASN sets the localASN field on all peers, causing MetalLB to
+// advertise that ASN to each peer via "neighbor <peer> local-as <ASN>
+// no-prepend replace-as" in FRR mode.
+func WithLocalASN(peers []metallbv1beta2.BGPPeer, localASN uint32) []metallbv1beta2.BGPPeer {
+	for i := range peers {
+		peers[i].Spec.LocalASN = ptr.To(localASN)
 	}
 	return peers
 }

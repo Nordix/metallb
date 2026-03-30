@@ -84,6 +84,9 @@ type SessionParameters struct {
 	SessionName            string
 	DualStackAddressFamily bool
 	DisableMP              bool
+	// LocalASN, if non-zero, instructs FRR to advertise this ASN to the peer
+	// via "neighbor <peer> local-as <ASN> no-prepend replace-as".
+	LocalASN uint32
 }
 type SessionManager interface {
 	NewSession(logger log.Logger, args SessionParameters) (Session, error)

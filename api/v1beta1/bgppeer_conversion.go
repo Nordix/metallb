@@ -13,6 +13,7 @@ func (src *BGPPeer) ConvertTo(dstRaw conversion.Hub) error {
 	dst := dstRaw.(*v1beta2.BGPPeer)
 	dst.Spec.ASN = src.Spec.ASN
 	dst.Spec.MyASN = src.Spec.MyASN
+	dst.Spec.LocalASN = nil
 	dst.Spec.Address = src.Spec.Address
 	dst.Spec.SrcAddress = src.Spec.SrcAddress
 	dst.Spec.Port = src.Spec.Port

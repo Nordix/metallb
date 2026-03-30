@@ -134,6 +134,15 @@ type BGPPeerSpec struct {
 	// +optional
 	// +kubebuilder:default:=false
 	DualStackAddressFamily bool `json:"dualStackAddressFamily,omitempty"`
+
+	// LocalASN allows advertising a different AS number to the peer using BGP's
+	// local-as feature. When set, MetalLB will advertise this ASN to the peer
+	// via "neighbor <peer> local-as <ASN> no-prepend replace-as", overriding
+	// the router-level MyASN for this specific session. Supported for FRR mode only.
+	// +optional
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=4294967295
+	LocalASN *uint32 `json:"localASN,omitempty"`
 }
 
 // BGPPeerStatus defines the observed state of Peer.
